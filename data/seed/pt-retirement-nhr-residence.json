@@ -1,0 +1,36 @@
+{
+  "procedure_id": "pt-retirement-nhr-residence",
+  "country": "PT",
+  "category": "retirement",
+  "title": "Retirement Residence Permit and Tax Benefits - Portugal",
+  "title_local": "Visto de Residencia para Aposentados / Residente Nao Habitual (RNH)",
+  "summary": "British nationals who wish to retire in Portugal generally use the D7 passive income visa route and then obtain residence status in Portugal.",
+  "steps": [
+    "Open a Portuguese bank account.",
+    "Obtain a Portuguese tax number (NIF).",
+    "Apply for the D7 Passive Income Visa at the Portuguese consulate in your country.",
+    "Wait for visa approval and any additional requests.",
+    "Travel to Portugal with the D7 visa and complete the residence process within validity window.",
+    "Book and attend the immigration appointment with AIMA for residence permit issuance.",
+    "Register for tax status options at the Portuguese Tax Authority, where eligible."
+  ],
+  "documents": [
+    "Valid passport",
+    "Proof of passive income (pension, investment, or rental income)",
+    "Portuguese NIF number",
+    "Portuguese bank account statement",
+    "Proof of accommodation in Portugal",
+    "Criminal record check from home country (apostilled where required)",
+    "Health insurance valid in Portugal",
+    "Completed visa application form",
+    "Passport-sized photos"
+  ],
+  "office": "Portuguese Consulate (visa stage) and AIMA in Portugal (residence stage).",
+  "fee": "EUR90 visa fee; EUR83 residence permit fee",
+  "processing_days": 60,
+  "notes": "Tax regimes and eligibility rules can change, confirm current Tax Authority guidance before planning.",
+  "source_url": "https://aima.gov.pt/en/residence-permits/residence-permit-d7",
+  "difficulty": "moderate",
+  "language": "en",
+  "last_verified": "2025-01"
+}

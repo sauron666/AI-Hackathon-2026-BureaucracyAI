@@ -1,0 +1,32 @@
+{
+  "procedure_id": "pl-residence_permit-ukrainian-temporary-protection",
+  "country": "PL",
+  "category": "residence_permit",
+  "title": "Long-Term Legal Status for Ukrainians on Temporary Protection - Poland",
+  "title_local": "Status pobytowy dla obywateli Ukrainy - ochrona czasowa i dalsze opcje",
+  "summary": "Ukrainians with temporary protection in Poland may have several legal pathways for longer-term stay depending on residence history, work status, and individual circumstances.",
+  "steps": [
+    "Confirm your temporary protection and PESEL UKR status are active.",
+    "If missing PESEL, register at your local municipality office.",
+    "Track official extension announcements for temporary protection validity.",
+    "Evaluate temporary residence permit route if you meet work or family criteria.",
+    "Submit residence application to the Voivodeship Office with complete documents.",
+    "Evaluate international protection or other status options if relevant to your case.",
+    "Maintain address registration and keep status documents up to date."
+  ],
+  "documents": [
+    "Ukrainian passport or other identity document",
+    "PESEL number confirmation",
+    "Proof of address in Poland",
+    "For residence permit: work or family supporting documentation",
+    "Passport-sized photos"
+  ],
+  "office": "Municipality office for PESEL and address matters; Voivodeship Office for residence permit applications.",
+  "fee": "Temporary protection registration is free; residence permit fees depend on permit type",
+  "processing_days": 90,
+  "notes": "Temporary protection timelines are policy-driven and can be extended or adjusted by legislation.",
+  "source_url": "https://www.gov.pl/web/udsc/ukraina-en",
+  "difficulty": "moderate",
+  "language": "en",
+  "last_verified": "2025-01"
+}

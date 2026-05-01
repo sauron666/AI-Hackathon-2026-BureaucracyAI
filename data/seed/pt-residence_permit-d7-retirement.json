@@ -1,0 +1,38 @@
+{
+  "procedure_id": "pt-residence_permit-d7-retirement",
+  "country": "PT",
+  "category": "retirement",
+  "title": "D7 Visa - Passive Income / Retirement Visa",
+  "title_local": "Visto D7 - Rendimento Passivo / Aposentar",
+  "summary": "The D7 visa is designed for retirees and individuals with passive income (pensions, investments, rental income). It allows long-term residence in Portugal and is the pathway to the NHR tax regime and eventually Portuguese citizenship.",
+  "steps": [
+    "Open a Portuguese bank account (Conta bancária) - can be done remotely",
+    "Obtain a Portuguese NIF (Número de Identificação Fiscal) tax number",
+    "Secure accommodation (rental contract or property purchase)",
+    "Apply for D7 visa at Portuguese consulate in home country",
+    "Submit financial proof (passive income minimum €760/month)",
+    "Attend visa interview at consulate",
+    "Travel to Portugal within visa validity period",
+    "Register with SEF (now AIMA) for residence permit",
+    "Apply for NHR (Non-Habitual Resident) status at Autoridade Tributária"
+  ],
+  "documents": [
+    "Valid passport",
+    "Proof of passive income: pension statements, investment statements, rental income",
+    "Proof of accommodation in Portugal (rental contract or property deed)",
+    "Criminal record certificate from home country",
+    "Health insurance valid in Portugal and EU",
+    "Bank statements (last 3 months)",
+    "NIF application form",
+    "Passport photos (2)",
+    "Completed D7 visa application form"
+  ],
+  "office": "AIMA (Agência para a Integração, Migrações e Asilo) - formerly SEF",
+  "fee": "€90 for visa application + €72.50 for residence card",
+  "processing_days": 60,
+  "notes": "Minimum income requirement is approximately €760/month (1x Portuguese minimum wage). NHR status provides 10 years of tax benefits but excludes Portuguese-sourced income. You must spend at least 183 days per year in Portugal to maintain residence.",
+  "source_url": "https://www.sef.pt/en/Documents/Contedo%20ENG/WEB_Visto_D7_v17072023.pdf",
+  "difficulty": "moderate",
+  "language": "en",
+  "last_verified": "2024-03"
+}

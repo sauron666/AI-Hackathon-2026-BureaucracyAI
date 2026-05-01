@@ -1,0 +1,36 @@
+{
+  "procedure_id": "nl-family-partner-visa",
+  "country": "NL",
+  "category": "family",
+  "title": "Partner/Spouse Visa and Residence Permit - Netherlands",
+  "title_local": "Machtiging tot voorlopig verblijf (MVV) en verblijfsvergunning voor partner",
+  "summary": "Non-EU/EEA nationals who want to join their partner in the Netherlands usually need an MVV entry visa followed by a residence permit for family reunification.",
+  "steps": [
+    "Sponsor in the Netherlands submits an application to IND on behalf of the foreign partner.",
+    "IND assesses whether the sponsor meets the income requirement and relationship requirements.",
+    "The foreign partner attends a biometrics appointment at the Dutch embassy or consulate.",
+    "If approved, the foreign partner receives a long-stay visa (MVV) valid for 90 days.",
+    "Within 3 days of arrival in the Netherlands, register at your municipality (Gemeente).",
+    "The IND will issue the residence permit (verblijfsvergunning) with family reunification basis.",
+    "Attend the IND biometrics appointment in the Netherlands to collect the residence card.",
+    "If required, complete civic integration obligations within the legal period."
+  ],
+  "documents": [
+    "Valid passport of the foreign partner",
+    "Marriage certificate or proof of registered partnership (apostilled and translated where required)",
+    "Proof of sponsor's income (employer statement and payslips)",
+    "Proof of sponsor's residence permit or Dutch/EU citizenship",
+    "Proof of accommodation in the Netherlands",
+    "Tuberculosis (TBC) test results if applicable",
+    "Biometric passport photos",
+    "Antecedents certificate where requested"
+  ],
+  "office": "IND (Immigratie en Naturalisatiedienst) and Dutch embassy/consulate; municipality (Gemeente) after arrival.",
+  "fee": "EUR210 for MVV and residence permit (combined application fee, 2024 reference)",
+  "processing_days": 90,
+  "notes": "Some nationalities require MVV while others are exempt; verify by nationality before applying.",
+  "source_url": "https://ind.nl/en/residence-permits/family/partner",
+  "difficulty": "complex",
+  "language": "en",
+  "last_verified": "2025-01"
+}

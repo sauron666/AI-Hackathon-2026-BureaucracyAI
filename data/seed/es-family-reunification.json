@@ -1,0 +1,37 @@
+{
+  "procedure_id": "es-family-reunification",
+  "country": "ES",
+  "category": "family",
+  "title": "Family Reunification for Dependent Relatives - Spain",
+  "title_local": "Reagrupacion Familiar - Residencia por reagrupacion familiar",
+  "summary": "Legal residents in Spain may bring eligible family members, including dependent parents under conditions, through the family reunification process.",
+  "steps": [
+    "Sponsor in Spain must usually have held a residence permit for at least one year and have renewed status.",
+    "Submit family reunification application (EX-02 form) at the Oficina de Extranjeria.",
+    "Provide proof of sufficient financial means and accommodation.",
+    "Provide relationship documents and dependency proof where relevant.",
+    "Wait for resolution from the immigration office.",
+    "If approved, relative applies for the corresponding visa at the Spanish consulate.",
+    "Relative travels to Spain within visa validity.",
+    "Register address (empadronamiento) after arrival.",
+    "Apply for TIE card within required legal window."
+  ],
+  "documents": [
+    "Sponsor's current residence permit (TIE)",
+    "Sponsor's income and tax documents",
+    "Proof of accommodation",
+    "Relative's valid passport",
+    "Civil status and relationship documents (apostilled and translated where required)",
+    "Criminal record certificate where required",
+    "Medical certificate where required",
+    "EX-02 application form"
+  ],
+  "office": "Oficina de Extranjeria in Spain, then Spanish consulate abroad, and police office for TIE.",
+  "fee": "About EUR16.60 for application; TIE card fee varies by province and year",
+  "processing_days": 90,
+  "notes": "For dependent parents, dependency evidence is highly scrutinized and requirements can vary by province.",
+  "source_url": "https://extranjeros.inclusion.gob.es/es/InformacionInteres/InformacionProcedimientos/Ciudadanosnocomunitarios/hoja012/index.html",
+  "difficulty": "complex",
+  "language": "en",
+  "last_verified": "2025-01"
+}

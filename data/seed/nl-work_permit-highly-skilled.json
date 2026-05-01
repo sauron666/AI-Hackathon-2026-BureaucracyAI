@@ -1,0 +1,31 @@
+{
+  "procedure_id": "nl-work_permit-highly-skilled",
+  "country": "NL",
+  "category": "work_permit",
+  "title": "Highly Skilled Migrant Visa (Kennismigrant) - Netherlands",
+  "title_local": "Verblijfsvergunning voor kennismigranten",
+  "summary": "Non-EU nationals with a job offer from an IND-recognized sponsor employer can apply for the Dutch highly skilled migrant residence permit route.",
+  "steps": [
+    "Ensure your employer is an IND-recognized sponsor.",
+    "Your employer submits the application to IND on your behalf.",
+    "IND assesses salary threshold compliance and sponsor eligibility.",
+    "If approved from abroad, attend the Dutch embassy in your country for MVV collection when required.",
+    "Register at your municipality (Gemeente) shortly after arrival.",
+    "Collect your residence permit (verblijfsdocument) at an IND desk after biometrics."
+  ],
+  "documents": [
+    "Passport valid beyond intended stay",
+    "Signed employment contract (arbeidsovereenkomst)",
+    "Employer's IND sponsor details",
+    "Degree certificates if required for the role",
+    "Proof of accommodation"
+  ],
+  "office": "IND (Immigratie en Naturalisatiedienst), with employer-led submission.",
+  "fee": "EUR350 (typically paid by employer)",
+  "processing_days": 14,
+  "notes": "Salary thresholds and related conditions change annually; confirm with IND before submission.",
+  "source_url": "https://ind.nl/en/residence-permits/work/highly-skilled-migrant",
+  "difficulty": "moderate",
+  "language": "en",
+  "last_verified": "2025-01"
+}

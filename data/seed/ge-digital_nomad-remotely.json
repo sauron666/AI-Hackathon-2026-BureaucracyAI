@@ -1,0 +1,33 @@
+{
+  "procedure_id": "ge-digital_nomad-remotely",
+  "country": "GE",
+  "category": "digital_nomad",
+  "title": "Remotely from Georgia Program",
+  "title_local": "დისტანციურად საქართველოდან",
+  "summary": "Georgia offers a unique program allowing digital nomads and remote workers to live in Georgia for up to 1 year (or extend). US citizens can stay 365 days visa-free, and there's no income tax on foreign-sourced income for participants in the Remotely from Georgia program.",
+  "steps": [
+    "Enter Georgia with US passport (365-day visa-free stay for US citizens)",
+    "Register your stay online with the Public Service Development Agency within 15 days",
+    "Open a Georgian bank account (Bank of Georgia, TBC Bank) for daily transactions",
+    "Apply for 'Remotely from Georgia' status at service areas (service.gov.ge)",
+    "Provide proof of remote employment or self-employment",
+    "Obtain Georgian ID card (optional but helpful for longer activities)",
+    "Extend stay if needed before 365 days"
+  ],
+  "documents": [
+    "Valid US passport",
+    "Proof of remote employment (employment contract, letter from employer)",
+    "Proof of self-employment (business registration, client contracts, invoices)",
+    "Income proof (minimum $2,000/month recommended)",
+    "Health insurance valid in Georgia",
+    "Proof of accommodation (hotel booking, rental contract, Airbnb receipts)"
+  ],
+  "office": "Public Service Development Agency (service.gov.ge)",
+  "fee": "Free visa-free entry; Remotely from Georgia registration fee approximately 50 GEL ($20 USD)",
+  "processing_days": 7,
+  "notes": "The Remotely from Georgia program offers: no income tax on foreign-sourced income, 1-year visa-free stay, ability to open bank accounts, and access to Georgian healthcare system. The 15-day registration is important to avoid fines.",
+  "source_url": "https://www.geoconsul.gov.ge/en/Home/RemoteWorkInGeorgia",
+  "difficulty": "easy",
+  "language": "en",
+  "last_verified": "2024-03"
+}

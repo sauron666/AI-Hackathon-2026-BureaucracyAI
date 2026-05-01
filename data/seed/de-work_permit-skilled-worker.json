@@ -1,0 +1,39 @@
+{
+  "procedure_id": "de-work_permit-skilled-worker",
+  "country": "DE",
+  "category": "work_permit",
+  "title": "Skilled Worker Visa and Work Permit - Germany",
+  "title_local": "Fachkraefteeinwanderungsgesetz - Aufenthaltserlaubnis zur Erwerbstaetigkeit",
+  "summary": "Non-EU nationals with a recognized qualification and a job offer in Germany can apply for a skilled worker visa and then convert it into a residence permit for employment.",
+  "steps": [
+    "Obtain a formal job offer from a German employer (Arbeitsvertrag or binding offer letter).",
+    "Have your foreign qualification recognized by the relevant German authority (check Anerkennung in Deutschland portal).",
+    "Gather all required documents (see list below).",
+    "Book an appointment at the German embassy or consulate in your home country (Deutsche Botschaft/Konsulat).",
+    "Attend the visa appointment and submit your D-visa application for employment (national visa).",
+    "Wait for visa approval (typically 4-12 weeks; embassy will notify you).",
+    "Travel to Germany and register your address at the local Einwohnermeldeamt with your landlord confirmation.",
+    "Apply for your Residence Permit (Aufenthaltserlaubnis) at the local Foreigners' Office (Auslaenderbehoerde).",
+    "Begin work; your employer should register you with the social security system."
+  ],
+  "documents": [
+    "Valid passport (Reisepass) - must be valid for the duration of stay",
+    "Completed visa application form (Antragsformular fuer ein nationales Visum)",
+    "Biometric passport photos (biometrisches Lichtbild)",
+    "Job offer or employment contract (Arbeitsvertrag oder verbindliches Stellenangebot)",
+    "Proof of recognized qualification (Anerkennungsbescheid) or equivalency",
+    "University degree and transcripts (Hochschulzeugnis und Transkripte)",
+    "CV / Resume (Lebenslauf)",
+    "Proof of German language skills if required by profession (Deutschkenntnisse)",
+    "Health insurance proof (Krankenversicherungsnachweis)",
+    "Blocked account (Sperrkonto) or proof of sufficient funds if no immediate income"
+  ],
+  "office": "German Embassy or Consulate in home country (Deutsche Botschaft/Konsulat), then Auslaenderbehoerde in Germany.",
+  "fee": "EUR75 for national visa; EUR100 for residence permit at Auslaenderbehoerde",
+  "processing_days": 60,
+  "notes": "The EU Blue Card (Blaue Karte EU) is an alternative for high earners. Salary thresholds and requirements change yearly.",
+  "source_url": "https://www.make-it-in-germany.com/en/visa-residence/types/work-qualified-professionals",
+  "difficulty": "complex",
+  "language": "en",
+  "last_verified": "2025-01"
+}

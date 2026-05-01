@@ -1,0 +1,31 @@
+{
+  "procedure_id": "ge-digital_nomad-long-term-stay",
+  "country": "GE",
+  "category": "digital_nomad",
+  "title": "Long-Term Legal Stay for Digital Nomads and Freelancers - Georgia",
+  "title_local": "Grdzelvadiani tskhovreba saqartveloshi - tsipruli momtabare",
+  "summary": "US citizens and many other nationals can stay in Georgia visa-free for up to one year and may structure freelance activity through local registration routes.",
+  "steps": [
+    "Enter Georgia with an eligible passport under visa-free rules.",
+    "Register local address where required by current local process.",
+    "For freelance work, register as an Individual Entrepreneur (IE) with the Revenue Service.",
+    "Apply for Small Business Status where eligible for reduced tax treatment.",
+    "Open a Georgian bank account for local operations.",
+    "For stays beyond visa-free period, apply for residence permit using the applicable legal category."
+  ],
+  "documents": [
+    "Valid passport",
+    "Address details in Georgia",
+    "For IE registration: passport and tax registration details",
+    "For bank account: identity and address proof requested by bank",
+    "For residence permit: financial means and legal basis documentation"
+  ],
+  "office": "Revenue Service of Georgia for business registration and Public Service Hall / migration authorities for residence matters.",
+  "fee": "Registration and service fees vary by channel and urgency",
+  "processing_days": 3,
+  "notes": "Georgia is outside the EU framework and rules can differ materially from EU migration pathways.",
+  "source_url": "https://www.rs.ge/en",
+  "difficulty": "easy",
+  "language": "en",
+  "last_verified": "2025-01"
+}

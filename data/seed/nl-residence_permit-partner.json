@@ -1,0 +1,36 @@
+{
+  "procedure_id": "nl-residence_permit-partner",
+  "country": "NL",
+  "category": "family",
+  "title": "Partner Reunification Visa (Family Reunification)",
+  "title_local": "Familiehereniging Visum",
+  "summary": "Your partner can join you in the Netherlands through the family reunification process. This applies to registered partners and spouses. The sponsor must have a valid residence permit, and the process takes 3-6 months through the IND.",
+  "steps": [
+    "Sponsor applies for a sponsorship declaration (Machtiging) from the IND",
+    "Sponsor uploads required documents to IND portal",
+    "IND reviews and approves sponsorship (2-4 weeks)",
+    "Partner applies for provisional residence permit (MVV) at Dutch embassy in their country",
+    "Partner attends biometric appointment at embassy",
+    "Partner travels to Netherlands with MVV",
+    "Partner registers at municipality (Gemeente) within 5 days of arrival",
+    "Partner applies for residence card (verblijfskaart) at IND"
+  ],
+  "documents": [
+    "Valid passport (sponsor and partner)",
+    "Sponsorship declaration from IND (Machtiging)",
+    "Proof of relationship (marriage certificate or registered partnership)",
+    "Proof of sponsor's residence permit",
+    "Proof of accommodation in Netherlands",
+    "Proof of sufficient income (€1,834.74/month minimum)",
+    "Criminal record certificate from partner's home country",
+    "Medical certificate showing good health"
+  ],
+  "office": "IND (Immigratie- en Naturalisatiedienst) - Dutch Immigration Service",
+  "fee": "€326 for MVV visa + €193 for residence permit",
+  "processing_days": 90,
+  "notes": "Income requirement is waived for partners receiving Dutch benefits. The sponsor must have had residence for at least 1 year before sponsoring. If the sponsor is a Dutch citizen, the partner can apply directly for residence.",
+  "source_url": "https://ind.nl/en/family-members",
+  "difficulty": "moderate",
+  "language": "en",
+  "last_verified": "2024-03"
+}

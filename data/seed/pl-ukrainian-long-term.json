@@ -1,0 +1,38 @@
+{
+  "procedure_id": "pl-ukrainian-long-term",
+  "country": "PL",
+  "category": "residence_permit",
+  "title": "Long-term Status Options for Ukrainians in Poland",
+  "title_local": "Długoterminowe opcje pobytu dla Ukraińców w Polsce",
+  "summary": "Ukrainians under temporary protection (ochrona czasowa) in Poland have several paths to longer-term legal status: residence permit for humanitarian reasons, work permit, or eventually permanent residence if they meet the criteria.",
+  "steps": [
+    "Check when your current temporary protection expires",
+    "Gather proof of continuous residence in Poland",
+    "Obtain a PESEL number if not already done",
+    "Apply for a residence permit at the Urząd Wojewódzki (Provincial Office)",
+    "If you have a job, apply for a work permit (zezwolenie na pracę) simultaneously",
+    "Submit financial proof (employment contract, bank statements)",
+    "Submit proof of accommodation",
+    "Wait for decision (3-12 months depending on type)",
+    "Collect your residence card (karta pobytu)"
+  ],
+  "documents": [
+    "Valid passport",
+    "PESEL registration confirmation",
+    "Proof of continuous residence (registration, rental contracts, utility bills)",
+    "Employment contract or work permit application",
+    "Proof of financial stability (bank statements for last 6 months)",
+    "Proof of accommodation",
+    "Health insurance confirmation (NFZ or private)",
+    "Passport photos (4)",
+    "Application form"
+  ],
+  "office": "Urząd Wojewódzki (Provincial Office) - your local Voivodeship Office",
+  "fee": "Free for humanitarian residence permit; zł 350 for regular application",
+  "processing_days": 60,
+  "notes": "As of 2024, temporary protection for Ukrainians in Poland is extended until August 2025. Those who have been working legally can transition to a standard work-based residence permit. Students can apply for a student visa extension. After 5 years of continuous legal residence, you can apply for permanent residence (karta stałego pobytu).",
+  "source_url": "https://www.gov.pl/web/ua/pl",
+  "difficulty": "moderate",
+  "language": "en",
+  "last_verified": "2024-03"
+}

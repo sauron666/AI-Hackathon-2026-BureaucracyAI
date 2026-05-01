@@ -1,0 +1,35 @@
+{
+  "procedure_id": "de-residence_permit-eu-blue-card",
+  "country": "DE",
+  "category": "residence_permit",
+  "title": "EU Blue Card for Highly Skilled Workers",
+  "title_local": "EU Blue Card (Blaue Karte EU)",
+  "summary": "The EU Blue Card allows non-EU nationals with a university degree to work and live in Germany. It's the fastest route to permanent residence - you can apply for settlement permit after just 33 months (or 27 months with B1 German language skills).",
+  "steps": [
+    "Secure a job offer meeting the minimum salary threshold (€45,552 in 2024, higher for shortage occupations)",
+    "Obtain an employment contract or binding job offer letter from your German employer",
+    "Apply for the EU Blue Card at the German embassy in your home country (before entering Germany), OR",
+    "If already in Germany legally, apply at your local Ausländerbehörde (Immigration Office)",
+    "Submit required documents: passport, employment contract, university degree certificate, proof of health insurance",
+    "Attend biometric appointment and provide fingerprints",
+    "Wait for approval (typically 4-8 weeks)",
+    "Collect your EU Blue Card from Ausländerbehörde"
+  ],
+  "documents": [
+    "Valid passport (with at least 12 months validity)",
+    "University degree certificate (Anerkennung if from non-EU country) - 'Hochschulabschlusszeugnis'",
+    "Employment contract or binding job offer - 'Arbeitsvertrag'",
+    "Proof of health insurance (public or private) - 'Krankenversicherung'",
+    "Curriculum Vitae (CV)",
+    "Motivation letter explaining the job and qualifications",
+    "Application form (Antrag auf Erteilung eines Visums / Aufenthaltserlaubnis)"
+  ],
+  "office": "Ausländerbehörde (Foreigners' Registration Office) - locally known asAusländeramt",
+  "fee": "€100-200 depending on processing speed",
+  "processing_days": 30,
+  "notes": "Minimum salary for 2024 is €45,552. For STEM shortage occupations (IT, engineering, medicine), the threshold drops to €39,682. Your employer typically notifies the Bundesagentur für Arbeit (Federal Employment Agency) first. The Blue Card is tied to your employer initially - changing jobs requires notification but not a new visa.",
+  "source_url": "https://www.bundesagentur-fuer-arbeit.de/ba-in-statics/ba-en/Stay-in-Germany/Documents/EU-blue-card.pdf",
+  "difficulty": "moderate",
+  "language": "en",
+  "last_verified": "2024-03"
+}

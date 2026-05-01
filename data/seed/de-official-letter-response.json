@@ -1,0 +1,33 @@
+{
+  "procedure_id": "de-official-letter-response",
+  "country": "DE",
+  "category": "residence_permit",
+  "title": "Responding to Official Letters from Ausländerbehörde",
+  "title_local": "Antwort auf offizielle Schreiben vom Ausländeramt",
+  "summary": "Official letters from the German immigration office (Ausländerbehörde) always have strict deadlines. Ignoring them can result in automatic rejection of your application or even loss of residence rights. The Widerspruch (appeal) deadline is typically 1 month.",
+  "steps": [
+    "Read the letter carefully - note the deadline in the header (Frist)",
+    "Identify what is being requested (Antrag, Stellungnahme, or Entscheidung)",
+    "Gather required documents mentioned in the letter",
+    "Write a formal response in German if possible, or attach a translation",
+    "Submit before the deadline via email, mail, or in person",
+    "Keep a copy of everything you submit",
+    "If the deadline is missed, you may still have 1 month to file a Widerspruch",
+    "Contact a lawyer (Rechtsanwalt) if the letter threatens negative consequences"
+  ],
+  "documents": [
+    "The official letter itself (das Schreiben)",
+    "Your passport or residence permit (Reisepass / Aufenthaltstitel)",
+    "Any requested documents listed in the letter",
+    "Previous correspondence related to your case",
+    "Proof of submission (Sendungsverfolgung, Eingangsstempel)"
+  ],
+  "office": "Ausländerbehörde (Foreigners' Registration Office) - your local one",
+  "fee": "Free to respond; €50-100 for legal consultation if needed",
+  "processing_days": 14,
+  "notes": "The German Widerspruch (appeal) must be filed within 1 month of receiving a negative decision. You can file it yourself or through a lawyer. If the Widerspruch is rejected, you can then file a Klage (lawsuit) at the Verwaltungsgericht within 1 month more.",
+  "source_url": "https://www.bundesamt-fuer-migration-und-fluechtlinge.de/",
+  "difficulty": "moderate",
+  "language": "en",
+  "last_verified": "2024-03"
+}

@@ -1,0 +1,29 @@
+{
+  "procedure_id": "de-residence_permit-anmeldung",
+  "country": "DE",
+  "category": "address",
+  "title": "Address Registration (Anmeldung) - Germany",
+  "title_local": "Anmeldung beim Einwohnermeldeamt",
+  "summary": "All residents in Germany must register their address at the local registration office within two weeks of moving in. This registration is required for tax ID issuance, health insurance setup, and many banking and immigration processes.",
+  "steps": [
+    "Ask your landlord to fill in and sign the Wohnungsgeberbestaetigung (landlord confirmation).",
+    "Download and complete the Anmeldeformular (registration form) from your city's official website.",
+    "Book an appointment (Termin) at your local Buergeramt or Einwohnermeldeamt; walk-ins are rare in major cities.",
+    "Attend the appointment with all required documents.",
+    "Receive the Anmeldebestaetigung (registration certificate); keep this document, many institutions require it.",
+    "Your Steuer-ID (tax ID) will arrive by post within 2-4 weeks automatically."
+  ],
+  "documents": [
+    "Valid passport or national ID card",
+    "Wohnungsgeberbestaetigung (signed by your landlord)",
+    "Completed Anmeldeformular (registration form)"
+  ],
+  "office": "Buergeramt or Einwohnermeldeamt (Citizens' Registration Office) in your municipality.",
+  "fee": "Free",
+  "processing_days": 1,
+  "notes": "If your landlord refuses to provide Wohnungsgeberbestaetigung, they are violating legal obligations and may be fined.",
+  "source_url": "https://service.berlin.de/dienstleistung/120686/",
+  "difficulty": "easy",
+  "language": "en",
+  "last_verified": "2025-01"
+}

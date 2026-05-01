@@ -1,0 +1,35 @@
+{
+  "procedure_id": "de-residence_permit-auslaenderbehorde",
+  "country": "DE",
+  "category": "residence_permit",
+  "title": "Foreigners' Office - How Auslaenderbehoerde Works and Official Letters",
+  "title_local": "Auslaenderbehoerde - Aufenthaltserlaubnis und Behoerdenbriefe",
+  "summary": "The Auslaenderbehoerde (Foreigners' Office) issues all residence permits in Germany and sends legally binding letters regarding permit renewals, document requests, and deadlines.",
+  "steps": [
+    "When you receive an official letter (Bescheid) from the Auslaenderbehoerde, read the deadline first.",
+    "Check if the letter requires a response, additional documents, or an in-person appointment.",
+    "If you cannot understand the German letter, seek a certified translator or legal support immediately.",
+    "Typical letters include permit renewal notice, request for missing documents, and hearing invitations.",
+    "To appeal a decision (Widerspruch), submit a written appeal within 1 month of the date on the letter.",
+    "Book an appointment via the Auslaenderbehoerde online portal; walk-ins are typically not accepted.",
+    "Attend appointment with all requested documents, bring originals and copies.",
+    "If permit is expiring, apply for renewal at least 6-8 weeks before expiry date."
+  ],
+  "documents": [
+    "Valid passport",
+    "Current residence permit (Aufenthaltstitel)",
+    "Anmeldebestaetigung (address registration certificate)",
+    "Employment contract or proof of income (Einkommensnachweis)",
+    "Health insurance certificate (Krankenversicherungsnachweis)",
+    "Biometric passport photos",
+    "Any documents specifically requested in the letter"
+  ],
+  "office": "Auslaenderbehoerde (Foreigners' Office), location varies by city.",
+  "fee": "EUR100 for residence permit; EUR28.80 for extension",
+  "processing_days": 42,
+  "notes": "Widerspruch (appeal) must be filed within 1 month or the decision usually becomes final.",
+  "source_url": "https://www.bamf.de/EN/Themen/MigrationAufenthalt/migrationaufenthalt-node.html",
+  "difficulty": "complex",
+  "language": "en",
+  "last_verified": "2025-01"
+}
