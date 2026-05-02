@@ -1,7 +1,8 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Providers } from '@/components/providers'
+import { ServiceWorkerRegister } from '@/components/sw-register'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -11,6 +12,12 @@ export const metadata: Metadata = {
   title: 'FormWise - AI-Powered Bureaucracy Navigator',
   description: 'Navigate complex bureaucratic processes with AI assistance. Upload documents, get step-by-step guidance, and track your progress.',
   generator: 'v0.app',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: 'FormWise',
+    statusBarStyle: 'default',
+  },
   icons: {
     icon: [
       {
@@ -30,6 +37,15 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
+  ],
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,6 +55,7 @@ export default function RootLayout({
     <html lang="en" className="bg-background">
       <body className="font-sans antialiased min-h-screen">
         <Providers>
+          <ServiceWorkerRegister />
           {children}
         </Providers>
         {process.env.NODE_ENV === 'production' && <Analytics />}

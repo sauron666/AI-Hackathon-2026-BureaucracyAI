@@ -1,10 +1,25 @@
 import { z } from 'zod';
-import { runSirmaAgent } from '@/lib/sirma-agent';
-import { getSirmaConfig, isSirmaConfigured } from '@/lib/sirma-config';
 import { COUNTRY_NAMES } from '@/lib/types';
 import { scrapeGovernmentInfo, formatGovernmentFallback } from '@/lib/government-sources';
 import type { BureaucracyResponse } from '@/lib/ai/schemas';
 import { buildAskPrompt, createAskTurn } from '@/lib/ask-turn';
+import { runAIRouter } from '@/lib/ai/router';
+import {
+  AIProviderError,
+  listConfiguredProviders,
+  type AIProviderId,
+} from '@/lib/ai/providers';
+import { isSirmaConfigured } from '@/lib/sirma-config';
+import {
+  rateLimit,
+  rateLimitHeaders,
+  rateLimitKey,
+  tooManyRequests,
+} from '@/lib/security/rate-limit';
+import { audit } from '@/lib/security/audit';
+import { getCurrentUser } from '@/lib/auth/server';
+import { checkQuota, consumeQuota, paymentRequired } from '@/lib/billing/quota';
+import { getRouteLimit } from '@/lib/security/rate-limit-config';
 
 const askTurnSchema = z.object({
   visibleMessage: z.string().min(1),
@@ -14,6 +29,15 @@ const askTurnSchema = z.object({
   contextDigest: z.string().optional(),
   searchQuery: z.string().min(1),
 });
+
+const providerIdSchema = z.enum([
+  'sirma',
+  'anthropic',
+  'openai',
+  'google',
+  'cohere',
+  'ollama',
+]);
 
 const askRequestSchema = z.object({
   text: z.string().trim().min(1),
@@ -33,6 +57,10 @@ const askRequestSchema = z.object({
   originalQuestion: z.string().optional(),
   turn: askTurnSchema.optional(),
   debugPrompt: z.boolean().optional().default(false),
+  // Per-request provider override. If not set, the router falls back to user
+  // preferences (cookie) and env defaults.
+  providerOverride: providerIdSchema.optional(),
+  modelOverride: z.string().min(1).max(120).optional(),
 });
 
 type NormalizableResponse = Partial<BureaucracyResponse> & {
@@ -43,15 +71,51 @@ type NormalizableResponse = Partial<BureaucracyResponse> & {
   _generatedAt?: string;
   _fallbackSource?: string;
   _parsedFromText?: boolean;
+  _aiProvider?: string;
+  _aiModel?: string;
+  _aiUsedFallback?: boolean;
 };
 
 export async function POST(req: Request) {
   try {
+    // Rate limit: 30 requests / minute per user (or per IP if anonymous).
+    // The router treats Sirma-via-anon trial separately; this is just to
+    // prevent runaway costs and basic abuse.
+    const currentUser = await getCurrentUser();
+    const rl = await rateLimit(
+      rateLimitKey(req, currentUser?.id),
+      getRouteLimit('ask', currentUser?.plan),
+    );
+    if (!rl.ok) {
+      void audit({
+        event: 'rate_limit.exceeded',
+        userId: currentUser?.id ?? null,
+        request: req,
+        metadata: { route: '/api/ask', limit: rl.limit },
+      });
+      return tooManyRequests(rl);
+    }
+
+    // Plan-based monthly quota (Phase 4). Anonymous users still get the
+    // existing IP-based trial gate via the client-side trial context.
+    if (currentUser) {
+      const quota = await checkQuota(currentUser, 'ask');
+      if (!quota.ok) {
+        void audit({
+          event: 'quota.exceeded',
+          userId: currentUser.id,
+          request: req,
+          metadata: { route: '/api/ask', plan: quota.plan, used: quota.used, limit: quota.limit },
+        });
+        return paymentRequired(quota, quota.plan);
+      }
+    }
+
     const payload = askRequestSchema.safeParse(await req.json());
     if (!payload.success) {
       return Response.json(
         { error: 'Invalid request payload', details: payload.error.flatten() },
-        { status: 400 }
+        { status: 400, headers: rateLimitHeaders(rl) }
       );
     }
 
@@ -70,6 +134,8 @@ export async function POST(req: Request) {
       originalQuestion,
       turn,
       debugPrompt,
+      providerOverride,
+      modelOverride,
     } = payload.data;
 
     const countryName = COUNTRY_NAMES[country] || country;
@@ -96,34 +162,66 @@ export async function POST(req: Request) {
       return Response.json({
         turn: askTurn,
         prompt: message,
+        routerPlan: {
+          providerOverride: providerOverride ?? null,
+          modelOverride: modelOverride ?? null,
+        },
       });
     }
 
-    if (!isSirmaConfigured()) {
+    // Verify at least one provider is configured. Sirma stays the default,
+    // but the router can pick any other configured provider as a fallback.
+    const configuredProviders = listConfiguredProviders();
+    if (configuredProviders.length === 0) {
       return Response.json(
         {
-          error: 'Sirma not configured',
-          details: 'SIRMA_AGENT_ID is missing',
+          error: 'No AI provider configured',
+          details:
+            'Set at least one of SIRMA_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY, COHERE_API_KEY, or OLLAMA_ENABLED in .env.local',
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
-    const config = getSirmaConfig();
-
     try {
+      // Route through the unified AI router. Sirma session continuation is
+      // attempted first; the router will fall back automatically if any
+      // provider in the chain fails.
       let result;
       try {
-        result = await runSirmaAgent(config.agentId, message, {
-          sessionId,
-        });
+        result = await runAIRouter(
+          {
+            message,
+            sessionId,
+            timeoutMs: 60_000,
+          },
+          {
+            provider: providerOverride as AIProviderId | undefined,
+            model: modelOverride,
+          },
+        );
       } catch (agentError) {
-        if (!sessionId) {
+        // Sirma-specific retry: a stale session id can poison the request.
+        // If we used Sirma and a session id was provided, retry once without it.
+        if (
+          sessionId &&
+          (!providerOverride || providerOverride === 'sirma') &&
+          isSirmaConfigured()
+        ) {
+          console.warn(
+            'AI router failed with sessionId; retrying once without sessionId:',
+            agentError,
+          );
+          result = await runAIRouter(
+            { message, timeoutMs: 60_000 },
+            {
+              provider: providerOverride as AIProviderId | undefined,
+              model: modelOverride,
+            },
+          );
+        } else {
           throw agentError;
         }
-
-        console.warn('Sirma session continuation failed; retrying once without sessionId:', agentError);
-        result = await runSirmaAgent(config.agentId, message);
       }
 
       // Parse JSON response
@@ -157,6 +255,35 @@ export async function POST(req: Request) {
         parsedResponse._sessionId = result.sessionId;
       }
 
+      // AI router diagnostics: which provider/model actually answered.
+      parsedResponse._aiProvider = result.provider;
+      parsedResponse._aiModel = result.model;
+      if (result.usedFallback) {
+        parsedResponse._aiUsedFallback = true;
+      }
+
+      // Best-effort audit (does not block the response).
+      // Increment usage counter (only after a successful response).
+      if (currentUser) {
+        void consumeQuota(currentUser, 'ask');
+      }
+
+      void audit({
+        event: 'ai.request',
+        userId: currentUser?.id ?? null,
+        request: req,
+        metadata: {
+          route: '/api/ask',
+          provider: result.provider,
+          model: result.model,
+          usedFallback: result.usedFallback,
+          country,
+          language,
+          tokens: result.usage?.totalTokens,
+          latencyMs: result.latencyMs,
+        },
+      });
+
       // Add source attribution
       parsedResponse._country = countryName;
       parsedResponse._language = language;
@@ -168,7 +295,11 @@ export async function POST(req: Request) {
 
       return Response.json({ response: parsedResponse });
     } catch (error) {
-      console.error('Sirma ask error:', error);
+      const providerInfo =
+        error instanceof AIProviderError
+          ? ` [${error.providerId}${error.statusCode ? ` ${error.statusCode}` : ''}]`
+          : '';
+      console.error(`AI router ask error${providerInfo}:`, error);
       
       // Try web scraping fallback for government sources
       try {

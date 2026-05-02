@@ -104,8 +104,8 @@ export default function AppLayout({
     { href: "/history", label: tr("nav.history"), icon: History, hint: "G H" },
   ]
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await logout()
     router.push("/")
   }
 
@@ -262,13 +262,16 @@ export default function AppLayout({
 
           <div className={cn("flex gap-2", collapsed && "lg:flex-col")}>
             <Button
+              asChild
               variant="ghost"
               size="sm"
               className={cn("flex-1 justify-start gap-2", collapsed && "lg:justify-center lg:px-0")}
               title={tr("appShell.settings")}
             >
-              <Settings className="h-4 w-4" />
-              <span className={cn(collapsed && "lg:hidden")}>{tr("appShell.settings")}</span>
+              <Link href="/settings">
+                <Settings className="h-4 w-4" />
+                <span className={cn(collapsed && "lg:hidden")}>{tr("appShell.settings")}</span>
+              </Link>
             </Button>
             <Button
               variant="ghost"

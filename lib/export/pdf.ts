@@ -1,0 +1,129 @@
+"use client"
+
+/**
+ * PDF export — uses the browser's native print-to-PDF.
+ * No jsPDF dependency; we render a hidden printable HTML representation
+ * and call window.print(). The user picks "Save as PDF" in the dialog.
+ *
+ * Why this approach:
+ *   - Zero JS dependency cost (jsPDF + autotable adds ~200KB).
+ *   - Native unicode + emoji rendering (jsPDF needs custom font setup).
+ *   - User keeps control of output filename, page size, headers/footers.
+ */
+
+import type { BureaucracyResponse } from "@/lib/ai/schemas"
+
+interface ExportOptions {
+  /** Optional title shown on the printed page. */
+  title?: string
+  /** Watermark text (Free plan only). */
+  watermark?: string
+}
+
+export function exportAnswerAsPDF(
+  response: BureaucracyResponse,
+  options: ExportOptions = {},
+): void {
+  const printWindow = window.open("", "_blank", "width=900,height=1100")
+  if (!printWindow) {
+    alert("Allow pop-ups to download as PDF.")
+    return
+  }
+
+  const html = renderAnswerHTML(response, options)
+  printWindow.document.write(html)
+  printWindow.document.close()
+
+  // Give the browser a tick to lay out, then open the print dialog.
+  printWindow.onload = () => {
+    setTimeout(() => {
+      printWindow.focus()
+      printWindow.print()
+    }, 100)
+  }
+}
+
+function escape(s: string | undefined | null): string {
+  if (!s) return ""
+  return s
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+}
+
+function renderAnswerHTML(response: BureaucracyResponse, options: ExportOptions): string {
+  const title = options.title || response.procedureName || "FormWise Answer"
+  const watermark = options.watermark
+    ? `<div class="watermark">${escape(options.watermark)}</div>`
+    : ""
+
+  const stepsHTML = (response.steps ?? [])
+    .map(
+      (step) => `
+      <li>
+        <h3>${step.number ? `${step.number}. ` : ""}${escape(step.title)}</h3>
+        <p>${escape(step.description)}</p>
+        ${step.estimatedTime ? `<p class="meta">Estimated: ${escape(step.estimatedTime)}</p>` : ""}
+        ${step.tips ? `<p class="tip"><strong>Tip:</strong> ${escape(step.tips)}</p>` : ""}
+      </li>`,
+    )
+    .join("")
+
+  const docsHTML = (response.requiredDocuments ?? [])
+    .map(
+      (doc) => `
+      <li>
+        <strong>${escape(doc.name)}</strong>${doc.required === false ? " (optional)" : ""}
+        ${doc.description ? `<p>${escape(doc.description)}</p>` : ""}
+      </li>`,
+    )
+    .join("")
+
+  const officeHTML = response.officeInfo?.name
+    ? `
+    <h2>Office</h2>
+    <p>
+      <strong>${escape(response.officeInfo.name)}</strong><br>
+      ${response.officeInfo.address ? `${escape(response.officeInfo.address)}<br>` : ""}
+      ${response.officeInfo.website ? `<a href="${escape(response.officeInfo.website)}">${escape(response.officeInfo.website)}</a><br>` : ""}
+      ${response.officeInfo.hours ? `Hours: ${escape(response.officeInfo.hours)}` : ""}
+    </p>`
+    : ""
+
+  return `<!doctype html>
+<html><head><meta charset="utf-8"><title>${escape(title)} — FormWise</title>
+<style>
+  @page { margin: 1.5cm; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.55; color: #0f172a; max-width: 720px; margin: 0 auto; position: relative; }
+  h1 { color: #1e40af; border-bottom: 2px solid #2563eb; padding-bottom: 8px; margin-top: 0; }
+  h2 { color: #1e3a8a; margin-top: 24px; }
+  h3 { font-size: 14px; margin-bottom: 4px; }
+  .meta { font-size: 12px; color: #64748b; margin: 2px 0; }
+  .tip { background: #fef9c3; padding: 6px 10px; border-left: 3px solid #eab308; font-size: 13px; }
+  ol { padding-left: 20px; } li { margin-bottom: 14px; }
+  .footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #94a3b8; text-align: center; }
+  .watermark { position: fixed; top: 40%; left: 0; right: 0; text-align: center; font-size: 80px; color: rgba(37,99,235,0.07); pointer-events: none; transform: rotate(-30deg); font-weight: 800; }
+  a { color: #2563eb; }
+</style></head>
+<body>
+${watermark}
+<h1>${escape(title)}</h1>
+${response.summary ? `<p><strong>${escape(response.summary)}</strong></p>` : ""}
+${response.detailedSummary ? `<p>${escape(response.detailedSummary)}</p>` : ""}
+
+${response.steps && response.steps.length ? `<h2>Steps</h2><ol>${stepsHTML}</ol>` : ""}
+${response.requiredDocuments && response.requiredDocuments.length ? `<h2>Required documents</h2><ul>${docsHTML}</ul>` : ""}
+${officeHTML}
+
+${response.costs?.governmentFees ? `<h2>Costs</h2><p>${escape(response.costs.governmentFees)}</p>` : ""}
+${response.timeline?.maximumTime ? `<h2>Timeline</h2><p>${escape(response.timeline.maximumTime)}</p>` : ""}
+
+${response.legalFoundation?.lawName ? `<h2>Legal basis</h2><p>${escape(response.legalFoundation.lawName)}${response.legalFoundation.url ? ` — <a href="${escape(response.legalFoundation.url)}">${escape(response.legalFoundation.url)}</a>` : ""}</p>` : ""}
+
+<div class="footer">
+  Generated by FormWise on ${new Date().toLocaleString()}.
+  Verify all details with the official authority before acting.
+</div>
+</body></html>`
+}

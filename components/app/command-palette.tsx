@@ -206,7 +206,12 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
 
           <CommandGroup heading={tr("commandPalette.account")}>
             <CommandItem
-              onSelect={() => run(() => { logout(); router.push("/") })}
+              onSelect={() =>
+                run(async () => {
+                  await logout()
+                  router.push("/")
+                })
+              }
               className="text-destructive data-[selected=true]:bg-destructive/10 data-[selected=true]:text-destructive"
             >
               <LogOut />

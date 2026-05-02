@@ -7,6 +7,8 @@ import { TrialProvider } from "@/lib/trial/context"
 import { ThemeProvider } from "@/lib/theme/context"
 import { CommandPaletteProvider } from "@/components/app/command-palette"
 import { Toaster } from "@/components/ui/sonner"
+import { DataSync } from "@/components/data-sync"
+import { CsrfFetchInterceptor } from "@/components/csrf-fetch-interceptor"
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -15,6 +17,8 @@ export function Providers({ children }: { children: ReactNode }) {
         <AuthProvider>
           <TrialProvider>
             <CommandPaletteProvider>
+              <CsrfFetchInterceptor />
+              <DataSync />
               {children}
               <Toaster position="top-right" richColors closeButton />
             </CommandPaletteProvider>

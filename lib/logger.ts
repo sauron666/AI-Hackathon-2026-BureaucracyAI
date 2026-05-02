@@ -1,7 +1,14 @@
 /**
  * Simple logging utility for infrastructure
- * Provides structured logging with levels and timestamps
+ * Provides structured logging with levels and timestamps.
+ *
+ * Phase 3: every message and data payload is run through PII redaction
+ * before reaching the underlying console. Redaction is idempotent and safe
+ * to apply to already-redacted strings, so call sites do not need to be
+ * audited for PII presence.
  */
+
+import { redactObject, redactPII } from './security/redact';
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -46,8 +53,8 @@ class Logger {
     const entry: LogEntry = {
       timestamp: new Date().toISOString(),
       level,
-      message,
-      data,
+      message: redactPII(message),
+      data: data === undefined ? undefined : redactObject(data),
     };
 
     const formatted = this.formatEntry(entry);

@@ -1,6 +1,9 @@
-import { generateObject } from 'ai';
 import { z } from 'zod';
-import { getModelId } from '@/lib/ai/providers';
+import { runJSONMode, JSONModeParseError } from '@/lib/ai/json-mode';
+import {
+  AIProviderError,
+  listConfiguredProviders,
+} from '@/lib/ai/providers';
 import { finalizeRelocationJourney } from '@/lib/ai/grounding';
 import { t } from '@/lib/i18n';
 import {
@@ -10,6 +13,25 @@ import {
 import { buildJourneySystemPrompt } from '@/lib/prompts';
 import { retrieveContext, getConfidence } from '@/lib/rag';
 import { RelocationJourneySchema, COUNTRY_NAMES } from '@/lib/types';
+import {
+  rateLimit,
+  rateLimitKey,
+  tooManyRequests,
+} from '@/lib/security/rate-limit';
+import { audit } from '@/lib/security/audit';
+import { getCurrentUser } from '@/lib/auth/server';
+import { getRouteLimit } from '@/lib/security/rate-limit-config';
+
+export const maxDuration = 60;
+
+const providerIdSchema = z.enum([
+  'sirma',
+  'anthropic',
+  'openai',
+  'google',
+  'cohere',
+  'ollama',
+]);
 
 const journeyRequestSchema = z.object({
   from_country: z.string().trim().min(2).max(100).default('unknown'),
@@ -23,6 +45,8 @@ const journeyRequestSchema = z.object({
     .transform((value) => value.toLowerCase())
     .default('work'),
   language: SupportedLanguageInputSchema.default('en'),
+  providerOverride: providerIdSchema.optional(),
+  modelOverride: z.string().min(1).max(120).optional(),
 });
 
 type JourneyRetrievalPlan = {
@@ -181,6 +205,21 @@ function buildJourneyContext(entries: JourneyContextEntry[]): string {
 
 export async function POST(req: Request) {
   try {
+    const currentUser = await getCurrentUser();
+    const rl = await rateLimit(
+      rateLimitKey(req, currentUser?.id),
+      getRouteLimit('journey', currentUser?.plan),
+    );
+    if (!rl.ok) {
+      void audit({
+        event: 'rate_limit.exceeded',
+        userId: currentUser?.id ?? null,
+        request: req,
+        metadata: { route: '/api/journey' },
+      });
+      return tooManyRequests(rl);
+    }
+
     const payload = journeyRequestSchema.safeParse(await req.json());
     if (!payload.success) {
       return Response.json(
@@ -192,8 +231,26 @@ export async function POST(req: Request) {
       );
     }
 
-    const { from_country, to_country, nationality, purpose, language } =
-      payload.data;
+    const {
+      from_country,
+      to_country,
+      nationality,
+      purpose,
+      language,
+      providerOverride,
+      modelOverride,
+    } = payload.data;
+
+    if (listConfiguredProviders().length === 0) {
+      return Response.json(
+        {
+          error: 'No AI provider configured',
+          details:
+            'Set at least one of SIRMA_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY, COHERE_API_KEY, or OLLAMA_ENABLED in .env.local',
+        },
+        { status: 500 },
+      );
+    }
 
     const retrievalPlan = buildJourneyRetrievalPlan(to_country, purpose);
     const retrievalResults = await Promise.all(
@@ -234,15 +291,11 @@ export async function POST(req: Request) {
         const category = metadata?.category || result.category || 'general';
         const dedupeKey = `${procedureId || source || result.label}:${chunk.slice(0, 160)}`;
 
-        if (seenChunks.has(dedupeKey)) {
-          return;
-        }
+        if (seenChunks.has(dedupeKey)) return;
 
         const procedureKey = procedureId || source || `${result.label}:${category}`;
         const procedureChunkCount = chunksPerProcedure.get(procedureKey) || 0;
-        if (procedureChunkCount >= 2) {
-          return;
-        }
+        if (procedureChunkCount >= 2) return;
 
         seenChunks.add(dedupeKey);
         chunksPerProcedure.set(procedureKey, procedureChunkCount + 1);
@@ -276,35 +329,81 @@ export async function POST(req: Request) {
       });
     }
 
-    const { object } = await generateObject({
-      model: getModelId(),
-      schema: RelocationJourneySchema,
-      system: buildJourneySystemPrompt(to_country, language),
-      prompt: `Relocating from: ${from_country}
+    const userPrompt = `Relocating from: ${from_country}
 Nationality: ${nationality || 'not specified'}
 Destination: ${COUNTRY_NAMES[to_country] || to_country}
 Purpose: ${purpose}
-Grounded procedure areas: ${
-        groundedAreas.length ? groundedAreas.join(', ') : 'none'
-      }
+Grounded procedure areas: ${groundedAreas.length ? groundedAreas.join(', ') : 'none'}
 Areas with limited official context: ${
-        missingAreas.length ? missingAreas.join(', ') : 'none'
-      }
+      missingAreas.length ? missingAreas.join(', ') : 'none'
+    }
 
 Context from ${COUNTRY_NAMES[to_country] || to_country} official sources:
-${context}`,
-    });
+${context}`;
 
-    return Response.json(
-      finalizeRelocationJourney(object, {
+    try {
+      const { data: object, routerResult } = await runJSONMode(
+        RelocationJourneySchema,
+        {
+          systemPrompt: buildJourneySystemPrompt(to_country, language),
+          userPrompt,
+          override: {
+            provider: providerOverride,
+            model: modelOverride,
+          },
+        },
+      );
+
+      const finalized = finalizeRelocationJourney(object, {
         language,
         countryName: COUNTRY_NAMES[to_country] || to_country,
         groundedAreas,
         missingAreas,
-      }),
-    );
+      });
+
+      void audit({
+        event: 'ai.request',
+        userId: currentUser?.id ?? null,
+        request: req,
+        metadata: {
+          route: '/api/journey',
+          provider: routerResult.provider,
+          model: routerResult.model,
+          usedFallback: routerResult.usedFallback,
+          fromCountry: from_country,
+          toCountry: to_country,
+          purpose,
+          language,
+          tokens: routerResult.usage?.totalTokens,
+          latencyMs: routerResult.latencyMs,
+        },
+      });
+
+      return Response.json({
+        ...finalized,
+        _aiProvider: routerResult.provider,
+        _aiModel: routerResult.model,
+        ...(routerResult.usedFallback ? { _aiUsedFallback: true } : {}),
+      });
+    } catch (err) {
+      if (err instanceof JSONModeParseError) {
+        console.error(
+          `Journey JSON parse error from ${err.routerResult.provider}/${err.routerResult.model}:`,
+          err.message,
+        );
+        return Response.json(
+          { error: 'Model response was not valid JSON', details: err.message },
+          { status: 502 },
+        );
+      }
+      throw err;
+    }
   } catch (error) {
-    console.error('Journey route error:', error);
+    const providerInfo =
+      error instanceof AIProviderError
+        ? ` [${error.providerId}${error.statusCode ? ` ${error.statusCode}` : ''}]`
+        : '';
+    console.error(`Journey route error${providerInfo}:`, error);
     return Response.json(
       { error: 'Failed to generate relocation journey' },
       { status: 500 },

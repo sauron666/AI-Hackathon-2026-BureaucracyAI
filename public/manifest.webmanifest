@@ -1,0 +1,53 @@
+{
+  "name": "FormWise — AI Bureaucracy Navigator",
+  "short_name": "FormWise",
+  "description": "Navigate complex bureaucratic processes with AI assistance.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-light-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-dark-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ask a question",
+      "url": "/ask",
+      "description": "Ask FormWise about any procedure"
+    },
+    {
+      "name": "Upload document",
+      "url": "/ask",
+      "description": "Analyze a document for risks"
+    },
+    {
+      "name": "Browse procedures",
+      "url": "/browse",
+      "description": "Explore by category"
+    }
+  ]
+}
